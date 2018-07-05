@@ -7,7 +7,6 @@
                 echo "completed init on Power"
                 }
             }
-        }
         stage('Build') {
             parallel {
                 stage('Client JARs') {
