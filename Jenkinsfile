@@ -51,7 +51,7 @@ pipeline {
 							}
 						}
 			   		}
-		      		} //end power stage
+		      	//	} //end power stage
 			//	stage('Intel') {
 			//		agent {
 			//			label 'intel'
