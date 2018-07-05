@@ -1,29 +1,39 @@
-	stage('Init') {
-		parallel power: {
-			node('power') {            	
-                		echo "completed init on Power"
-			}	
-		},
-		intel: {
-	            	node('intel') {
-				echo "completed init on intel"			
+parallel intel: {
+	node('intel') {
+		stage('Init') {
+			echo "completed init on intel"				
+		}
+        	stage('Build') {	
+            		parallel build_client_jars: {                   
+				stage('Client JARS') { 						
+             	     			echo "completed building client jars on Intel"  
+				}    
+            		},
+	    		build_opt: {	
+				stage('Build OPT') {
+    					echo "completed building OPT on Intel"
+       				}
 			}
 		}
 	}
-        stage('Build') {	
-            parallel build_client_jars: {
-                    node('power') && node('intel') {                    
-			    stage('Client JARS') { 						
-             	       		echo "completed building client jars on Power and Intel"  
-			    }
-		    }
-		    
-            },
-	    build_opt: {
-		    node('power') && node('intel') {
-			    stage('Build OPT') {
-    				  echo "completed building OPT on Power and Intel"
-       			    }
-		   }
-	  }
-	}
+},
+power: { 
+	node('intel') {
+  		stage('Init') {
+   			echo "completed init on intel"    
+  		}
+        	stage('Build') { 
+              		parallel build_client_jars: {                   
+    				stage('Client JARS') {       
+                      			echo "completed building client jars on Intel"  
+    				}    
+              		},
+       			build_opt: { 
+    				stage('Build OPT') {
+         				echo "completed building OPT on Intel"
+         	  		}
+   			}
+  		}
+ 	}
+}
+	
