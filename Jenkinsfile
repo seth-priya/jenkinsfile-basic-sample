@@ -1,34 +1,32 @@
-node {
- 	// Clean workspace before doing anything
-    deleteDir()
-
-    try {
-        stage ('Clone') {
-        	checkout scm
+    stages {
+        stage('Init') {
+            agent {
+                label 'power'
+            }
+            steps {
+                echo "completed init on Power"
+                }
+            }
         }
-        stage ('Build') {
-        	sh "echo 'shell scripts to build project...'"
-        }
-        stage ('Tests') {
-	        parallel 'static': {
-	            sh "echo 'shell scripts to run static tests...'"
-	        },
-	        'unit': {
-	            sh "echo 'shell scripts to run unit tests...'"
-	        },
-	        'integration': {
-	            sh "echo 'shell scripts to run integration tests...'"
-	        }
-        }
-      	stage ('Deploy') {
-            sh "echo 'shell scripts to deploy to server...'"
-      	}
-    } catch (err) {
-        currentBuild.result = 'FAILED'
-        throw err
-    }
+        stage('Build') {
+            parallel {
+                stage('Client JARs') {
+                    agent {
+                        label 'power'
+		    }
+                    steps {
+                        echo "completed building client jars on Power"
+                    }
+                }
+                stage('Build OPT') {
+                    agent {
+                        label 'power'
+                    }
+                    steps {
+		         echo "completed building OPT on Power"			
+                    }
+                }
+	    }
+		
+	}	
 }
-
-
-
-
