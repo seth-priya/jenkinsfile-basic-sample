@@ -7,6 +7,9 @@ pipeline {
 					agent {
 						label 'power'
 					}
+					steps {
+						echo "executing power stage"
+					}
 			    		stage('Init') {
 						agent {
 	 						label 'power'
