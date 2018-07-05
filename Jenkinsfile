@@ -1,8 +1,8 @@
 pipeline {
 	agent none
 	stages {
-		//stage('parallel') {
-		//	parallel {	
+		stage('parallel') {
+			parallel {	
 		//		stage('Power') {
 		//			agent {
 		//				label 'power'
@@ -60,7 +60,7 @@ pipeline {
 			//			echo "Intel stage triggered"
 			//		}
 		     	//	} //end intel stage
-			//} //end parallel
-	    	//} //end parallel stage
+			} //end parallel
+	    	} //end parallel stage
 	} //end stages
 } //end pipeline
