@@ -15,7 +15,7 @@
                     node('power') {                    
 			    stage('Client JARS') { 						
              	       		echo "completed building client jars on Power"  
-				sleep 10
+				sleep 60
 			    }
 			    stage('Build OPT') {
 				echo "completed building OPT on Power"
