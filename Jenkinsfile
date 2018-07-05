@@ -18,19 +18,19 @@ parallel intel: {
 	}
 },
 power: { 
-	node('intel') {
+	node('power') {
   		stage('Init') {
-   			echo "completed init on intel"    
+   			echo "completed init on power"    
   		}
         	stage('Build') { 
               		parallel build_client_jars: {                   
     				stage('Client JARS') {       
-                      			echo "completed building client jars on Intel"  
+                      			echo "completed building client jars on Power"  
     				}    
               		},
        			build_opt: { 
     				stage('Build OPT') {
-         				echo "completed building OPT on Intel"
+         				echo "completed building OPT on Power"
          	  		}
    			}
   		}
