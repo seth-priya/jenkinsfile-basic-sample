@@ -4,7 +4,7 @@
                 		echo "completed init on Power"
 			}	
 	            	node('intel') {
-				echho "completed init on intel"			
+				echo "completed init on intel"			
 			}
 		//}
 	}
