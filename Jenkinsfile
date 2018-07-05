@@ -21,7 +21,7 @@
             },
 	    intel: {
 		    node('intel') {
-			    stage(Client JARS') {
+			    stage('Client JARS') {
 				  echo "completed building client jars on Intel"
 			    }
 		   }
