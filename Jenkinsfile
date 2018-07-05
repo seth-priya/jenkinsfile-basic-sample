@@ -14,7 +14,8 @@
             parallel power: {
                     node('power') {                    
 			    stage('Client JARS') { 						
-             	       		echo "completed building client jars on Power"                    			    
+             	       		echo "completed building client jars on Power"  
+				sleep 10
 			    }
 			    stage('Build OPT') {
 				echo "completed building OPT on Power"
@@ -28,7 +29,7 @@
 				  echo "completed building client jars on Intel"
 			    }
 			    stage('Build OPT') {
-    				  echo "completed building OPT on Power"
+    				  echo "completed building OPT on Intel"
        			    }
 		   }
 	  }
