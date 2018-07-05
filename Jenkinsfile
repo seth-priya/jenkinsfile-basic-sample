@@ -1,7 +1,7 @@
 pipeline {
 	agent none
 	stages {
-		stage('parallel') {
+		//stage('parallel') {
 			parallel {		
 			    	stage('Init') {
 					agent {
@@ -45,6 +45,6 @@ pipeline {
 					}
 		   		}
 			} //end parallel
-	    	} //end parallel stage
+	    	// } //end parallel stage
 	} //end stages
 } //end pipeline
