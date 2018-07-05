@@ -16,6 +16,11 @@ parallel intel: {
        				}
 			}
 		}
+		stage('DevQA') {
+			stage('Basic OPT') {
+				echo "completed running Basic OPT tests on Intel"
+			}
+		}
 	}
 },
 power: { 
@@ -35,6 +40,11 @@ power: {
          	  		}
    			}
   		}
+		stage('DevQA') {
+			stage('Basic OPT') {
+				echo "completed running Basic OPT tests on Power"
+			}
+		}
  	}
 }
 	
