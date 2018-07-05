@@ -7,6 +7,7 @@ parallel intel: {
             		parallel build_client_jars: {                   
 				stage('Client JARS') { 						
              	     			echo "completed building client jars on Intel"  
+					sleeep 60									
 				}    
             		},
 	    		build_opt: {	
