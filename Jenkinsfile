@@ -11,8 +11,7 @@
 		}
 	}
         stage('Build') {	
-            parallel power: {
-                    node('power') {                    
+                    node('power && intel') {                    
 			    stage('Client JARS') { 						
              	       		echo "completed building client jars on Power"  
 				sleep 60
@@ -21,17 +20,5 @@
 				echo "completed building OPT on Power"
 			    }
 		    }
-		    
-            },
-	    intel: {
-		    node('intel') {
-			    stage('Client JARS') {
-				  echo "completed building client jars on Intel"
-			    }
-			    stage('Build OPT') {
-    				  echo "completed building OPT on Intel"
-       			    }
-		   }
-	  }
 	}
 				  
