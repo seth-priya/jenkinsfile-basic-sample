@@ -4,6 +4,9 @@ pipeline {
 		stage('parallel') {
 			parallel {	
 				stage('Power') {
+					agent {
+						label 'power'
+					}
 			    		stage('Init') {
 						agent {
 	 						label 'power'
