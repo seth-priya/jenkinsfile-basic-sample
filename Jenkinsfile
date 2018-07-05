@@ -1,24 +1,48 @@
-	stage('Init') {
-		parallel power: {
-			node('power') {            	
-                		echo "completed init on Power"
-			}	
-		},
-		intel: {
-	            	node('intel') {
-				echo "completed init on intel"			
+pipeline {
+	agent none
+	stages {
+		parallel {	 						
+			stage('Init') {
+				agent {
+	 				label 'power'
+				}
+				steps { 								
+					echo "completed init on Power"
+				}
+			}		
+        		stage('Build') {
+				parallel {
+					stage('Client JARS') {								
+						agent {
+							label 'power'
+						}
+						steps {
+							echo "completed building client jars on Power"
+							sleep 60 												
+						}
+					}
+			    		stage('Build OPT') {
+						agent {
+							label 'power'
+						}
+						steps {
+							echo "completed building OPT on Power"
+						}
+					}
+				}
+			    }
+			stage('DevQA') {
+				parallel {
+					stage('Basic OPT') {
+						agent {
+							label 'power'
+						}
+						steps {
+							echo "completed devQA, Basic OPT"
+						}
+					}
+				}
 			}
-		}
-	}
-        stage('Build') {	
-                    node('power && intel') {                    
-			    stage('Client JARS') { 						
-             	       		echo "completed building client jars on Power"  
-				sleep 60
-			    }
-			    stage('Build OPT') {
-				echo "completed building OPT on Power"
-			    }
-		    }
-	}
-				  
+		    } //end parallel
+	} //end stages
+} //end pipeline
