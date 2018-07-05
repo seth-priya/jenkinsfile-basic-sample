@@ -5,7 +5,7 @@ parallel {
 		}  						
             }
 	stage('Init') {
-		node('Intel') {
+		node('intel') {
 			echho "completed init on intel"			
 		}
 	}
