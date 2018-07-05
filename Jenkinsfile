@@ -10,13 +10,25 @@
 			}
 		}
 	}
-        //stage('Build') {
-          //  parallel {
-            //    stage('Client JARs') {
-              //      node('power') {                    
-                //        echo "completed building client jars on Power"                    			    
-		  //  }									
-                //}
+        stage('Build') {	
+            parallel power: {
+                    node('power') {                    
+			    stage('Client JARS') { 						
+             	       		echo "completed building client jars on Power"                    			    
+			    }						
+		    }
+		    
+            },
+	    intel: {
+		    node('intel') {
+			    stage(Client JARS') {
+				  echo "completed building client jars on Intel"
+			    }
+		   }
+	  }
+	}
+				  
+				  
                 //stage('Build OPT') {
                   //  node('power') {
 		    //     echo "completed building OPT on Power"			
