@@ -32,6 +32,22 @@
     				  echo "completed building OPT on Intel"
        			    }
 		   }
-	  }
+	    }
 	}
+	stage('DevQA') {
+		parallel power: {
+			node('power') {
+				stage('Basic OPT') {
+					echo "Basic OPT on Power Completed"
+				}
+		}
+		intel: {
+			node('intel') {
+				stage('Basic OPT') {
+					echo "Basic OPT on Intel completed"
+				}
+			}
+		}
+	}
+	
 				  
