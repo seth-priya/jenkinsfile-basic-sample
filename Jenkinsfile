@@ -1,7 +1,7 @@
 pipeline {
 	agent none
 	stages {
-		parallel {	 						
+		//parallel {	 						
 			stage('Init') {
 				agent {
 	 				label 'power'
@@ -29,7 +29,7 @@ pipeline {
 							echo "completed building OPT on Power"
 						}
 					}
-				}
+				}	
 			    }
 			stage('DevQA') {
 				parallel {
@@ -43,6 +43,6 @@ pipeline {
 					}
 				}
 			}
-		    } //end parallel
+		    //} //end parallel
 	} //end stages
 } //end pipeline
