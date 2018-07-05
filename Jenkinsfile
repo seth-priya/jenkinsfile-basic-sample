@@ -1,8 +1,15 @@
-        stage('Init') {
+parallel {
+	stage('Init') {
 		node('power') {            	
                 	echo "completed init on Power"
 		}  						
             }
+	stage('Init') {
+		node('Intel') {
+			echho "completed init on intel"			
+		}
+	}
+}
         //stage('Build') {
           //  parallel {
             //    stage('Client JARs') {
