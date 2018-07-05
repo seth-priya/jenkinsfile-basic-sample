@@ -1,4 +1,3 @@
-    stages {
         stage('Init') {
             agent {
                 label 'power'
@@ -28,4 +27,3 @@
 	    }
 		
 	}	
-}
