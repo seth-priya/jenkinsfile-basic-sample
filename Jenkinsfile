@@ -1,16 +1,18 @@
 pipeline {
 	agent none
 	stages {
-		//parallel {	 						
-			stage('Init') {
+		stage('parallel') {
+		    parallel {	
+			stage('Power')
+			    stage('Init') {
 				agent {
 	 				label 'power'
 				}
 				steps { 								
 					echo "completed init on Power"
 				}
-			}		
-        		stage('Build') {
+	 		    }		
+        	 	   stage('Build') {
 				parallel {
 					stage('Client JARS') {								
 						agent {
@@ -31,7 +33,7 @@ pipeline {
 					}
 				}	
 			    }
-			stage('DevQA') {
+			    stage('DevQA') {
 				parallel {
 					stage('Basic OPT') {
 						agent {
@@ -42,7 +44,14 @@ pipeline {
 						}
 					}
 				}
+			   }
+		      } //end power stage
+		      stage('Intel')
+			agent {
+				label 'intel'
 			}
-		    //} //end parallel
+		     } //end intel stage
+		} //end parallel
+	    } //end parallel stage
 	} //end stages
 } //end pipeline
