@@ -20,7 +20,7 @@
 		    
             },
 	    build_opt: {
-		    node('power && intel') {
+		    node('power' && 'intel') {
 			    stage('Build OPT') {
     				  echo "completed building OPT on Power and Intel"
        			    }
