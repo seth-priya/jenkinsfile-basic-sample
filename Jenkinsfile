@@ -1,15 +1,15 @@
 pipeline {
 	agent none
 	stages {
-		stage('parallel') {
-			parallel {	
-				stage('Power') {
-					agent {
-						label 'power'
-					}
-					steps {
-						echo "executing power stage"
-					}
+		//stage('parallel') {
+		//	parallel {	
+		//		stage('Power') {
+		//			agent {
+		//				label 'power'
+		//			}
+		//			steps {
+		//				echo "executing power stage"
+		//			}
 			    		stage('Init') {
 						agent {
 	 						label 'power'
@@ -52,15 +52,15 @@ pipeline {
 						}
 			   		}
 		      		} //end power stage
-				stage('Intel') {
-					agent {
-						label 'intel'
-					}
-					steps {
-						echo "Intel stage triggered"
-					}
-		     		} //end intel stage
-			} //end parallel
-	    	} //end parallel stage
+			//	stage('Intel') {
+			//		agent {
+			//			label 'intel'
+			//		}
+			//		steps {
+			//			echo "Intel stage triggered"
+			//		}
+		     	//	} //end intel stage
+			//} //end parallel
+	    	//} //end parallel stage
 	} //end stages
 } //end pipeline
