@@ -1,12 +1,12 @@
 	stage('Init') {
-		parallel {
+		//parallel {
 			node('power') {            	
                 		echo "completed init on Power"
 			}	
 	            	node('intel') {
 				echho "completed init on intel"			
 			}
-		}
+		//}
 	}
         //stage('Build') {
           //  parallel {
