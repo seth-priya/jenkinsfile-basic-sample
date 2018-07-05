@@ -1,34 +1,29 @@
-node {
- 	// Clean workspace before doing anything
-    deleteDir()
-
-    try {
-        stage ('Clone') {
-        	checkout scm
-        }
-        stage ('Build') {
-        	sh "echo 'shell scripts to build project...'"
-        }
-        stage ('Tests') {
-	        parallel 'static': {
-	            sh "echo 'shell scripts to run static tests...'"
-	        },
-	        'unit': {
-	            sh "echo 'shell scripts to run unit tests...'"
-	        },
-	        'integration': {
-	            sh "echo 'shell scripts to run integration tests...'"
-	        }
-        }
-      	stage ('Deploy') {
-            sh "echo 'shell scripts to deploy to server...'"
-      	}
-    } catch (err) {
-        currentBuild.result = 'FAILED'
-        throw err
-    }
-}
-
-
-
-
+	stage('Init') {
+		parallel power: {
+			node('power') {            	
+                		echo "completed init on Power"
+			}	
+		},
+		intel: {
+	            	node('intel') {
+				echo "completed init on intel"			
+			}
+		}
+	}
+        stage('Build') {	
+            parallel build_client_jars: {
+                    node('power && intel') {                    
+			    stage('Client JARS') { 						
+             	       		echo "completed building client jars on Power and Intel"  
+			    }
+		    }
+		    
+            },
+	    build_opt: {
+		    node('power & intel') {
+			    stage('Build OPT') {
+    				  echo "completed building OPT on Power and Intel"
+       			    }
+		   }
+	  }
+	}
