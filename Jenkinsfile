@@ -22,8 +22,10 @@ pipeline {
 			}		
 			
 		} 			
-			stage('Build') {
-						parallel {
+		stage('Build') {
+			parallel {
+				stage('Power Client JARS') {
+					parallel {
 						stage('Client JARS') {
 							agent {
 								label 'power'
@@ -41,21 +43,41 @@ pipeline {
 								echo "completed building OPT on Power"
 							}
 						}
-					}		
-			    	}
-			    	stage('DevQA') {
+					}
+				}
+				stage('Intel Client JARS') {
 					parallel {
-						stage('Basic OPT') {
+						stage('Client JARS') {
 							agent {
-								label 'power'
+								label 'intel'
 							}
 							steps {
-								echo "completed devQA, Basic OPT"
+								echo "completed building client jars on Intel"
+							}
+						}
+						stage('Build OPT') {
+							agent {
+								label 'intel'
+							}
+							steps {
+								echo "completed building OPT on Intel"
 							}
 						}
 					}
-		   		}
-			//} //end parallel
-	    	// } //end parallel stage
+				}
+			}						
+		}										    	}
+	    	stage('DevQA') {
+			parallel {
+				stage('Basic OPT') {
+					agent {
+						label 'power'
+					}
+					steps {
+						echo "completed devQA, Basic OPT"
+					}
+				}
+			}
+   		}
 	} //end stages
 } //end pipeline
