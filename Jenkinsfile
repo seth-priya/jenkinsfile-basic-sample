@@ -44,7 +44,7 @@ pipeline {
 							}
 						}
 					}
-				}
+				} //end Power Client JARS stage
 				stage('Intel Client JARS') {
 					parallel {
 						stage('Client JARS') {
@@ -64,9 +64,9 @@ pipeline {
 							}
 						}
 					}
-				}
-			}						
-		}										    	}
+				} //end Intel Client JARS
+			} //end parallel 						
+		} //end Build stage									    	}
 	    	stage('DevQA') {
 			parallel {
 				stage('Basic OPT') {
