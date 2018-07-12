@@ -1,5 +1,7 @@
 pipeline {
-	agent 'intel'
+	agent {
+		label 'intel'
+	}
 	stages {	
 		stage('Init') {
 			agent {
