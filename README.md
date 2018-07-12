@@ -1,4 +1,4 @@
-# Jenkinsfile basic sample - test brach
+# Jenkinsfile basic sample - test branch having multiple Jenkins files
 
 Jenkinsfile basic configuration example with stages definition to set up a Continuous Delivery Pipeline.
 
