@@ -16,7 +16,7 @@ pipeline {
 						label 'intel'
 					}
 					steps {
-						echo "completed building client jars on Power"
+						echo "completed building client jars on Intel"
 						sleep 60 												
 					}
 				}
@@ -25,7 +25,7 @@ pipeline {
 						label 'intel'
 					}
 					steps {
-						echo "completed building OPT on Power"
+						echo "completed building OPT on Intel"
 					}
 				}
 			}		
@@ -34,7 +34,7 @@ pipeline {
 			parallel {
 				stage('Basic OPT') {
 					agent {
-						label 'power'
+						label 'intel'
 					}
 					steps {
 						echo "completed devQA, Basic OPT on Intel"
