@@ -19,7 +19,7 @@ pipeline {
 					}
 					steps {
 						echo "completed building client jars on Intel"
-						sleep 60 												
+						//sleep 60 												
 					}
 				}
 	    			stage('Build OPT') {
