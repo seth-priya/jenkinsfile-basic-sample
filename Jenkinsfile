@@ -1,52 +1,119 @@
-	stage('Init') {
-		parallel power: {
-			node('power') {            	
-                		echo "completed init on Power"
-			}	
-		},
-		intel: {
-	            	node('intel') {
-				echo "completed init on intel"			
-			}
-		}
-	}
-        stage('Build') {	
-            parallel power: {
-                    node('power') {                    
-			    stage('Client JARS') { 						
-             	       		echo "completed building client jars on Power"  
-				sleep 60
-			    }
-			    stage('Build OPT') {
-				echo "completed building OPT on Power"
-			    }
-		    }
-		    
-            },
-	    intel: {
-		    node('intel') {
-			    stage('Client JARS') {
-				  echo "completed building client jars on Intel"
-			    }
-			    stage('Build OPT') {
-    				  echo "completed building OPT on Intel"
-       			    }
-		   }
-	    }
-	}
-	stage('DevQA') {
-		parallel power: {
-			node('power') {
-				stage('Basic OPT') {
-					echo "Basic OPT on Power Completed"
+pipeline {
+	agent none
+	stages {
+		parallel {
+			stage('Intel Init') {
+				agent {
+					label 'intel'
 				}
-		}
-		intel: {
-			node('intel') {
-				stage('Basic OPT') {
-					echo "Basic OPT on Intel completed"
+				steps {
+					echo "Running init on Intel"
 				}
 			}
-		}
-	}
-}			
+			stage('Power Init') {
+				agent {
+					label 'power'
+				}
+				steps {
+					echo "Running init on Power"
+				}
+			}
+		} //end parallel
+		stage('Build') {
+			parallel {
+				stage('Intel Client JARS') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running Client JARS on Intel"
+					}
+				}
+				stage('Power Client JARS') {
+					agent {
+						label 'power'
+					}
+					steps {
+						echo "Running Client JARS on Power"
+					}
+				}
+				stage('Intel Build OPT') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running Build OPT on Intel"
+					}
+				}
+				stage('Power Build OPT') {
+					agent {
+						label 'power'
+					}
+					steps {
+						echo "Running Build OPT on Power"
+						echo "Sleeping for 60 seconds ..."
+						sleep 60						
+					}
+				}
+				stage('Intel Build ASAN') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running ASAN on Intel"
+					}
+				}
+				stage('Power Build ASAN') {
+					steps {
+						echo "Skipping ASAN on Power ...."
+					}
+				}
+			} //end parallel
+		} //end Build Stage
+	} //end stages
+} //end pipeline
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
