@@ -72,6 +72,26 @@ pipeline {
 				}
 			} //end parallel
 		} //end Build Stage
+		stage('DevQA') {
+			parallel {
+				stage('Intel Basic OPT') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running Basic OPT on Intel"
+					}
+				}
+				stage('Power Basic OPT') {
+					agent {
+						label 'power'
+					}
+					steps {
+						echo "Running Basic OPT on Power"
+					}
+				}
+			} // end parallel
+		}
 	} //end stages
 } //end pipeline
 
