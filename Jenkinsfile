@@ -1,24 +1,26 @@
 pipeline {
 	agent none
 	stages {
-		parallel {
-			stage('Intel Init') {
-				agent {
-					label 'intel'
+		stage('Init') {
+			parallel {
+				stage('Intel Init') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running init on Intel"
+					}
 				}
-				steps {
-					echo "Running init on Intel"
+				stage('Power Init') {
+					agent {
+						label 'power'
+					}
+					steps {
+						echo "Running init on Power"
+					}
 				}
-			}
-			stage('Power Init') {
-				agent {
-					label 'power'
-				}
-				steps {
-					echo "Running init on Power"
-				}
-			}
-		} //end parallel
+			} //end parallel
+		}
 		stage('Build') {
 			parallel {
 				stage('Intel Client JARS') {
