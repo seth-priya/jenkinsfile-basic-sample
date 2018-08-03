@@ -2,24 +2,17 @@ pipeline {
 	agent none
 	stages {
 		stage('Init') {
-			parallel {
-				stage('Intel Init') {
-					agent {
-						label 'intel'
-					}
-					steps {
-						echo "Running init on Intel"
-					}
-				}
-				stage('Power Init') {
-					agent {
-						label 'power'
-					}
-					steps {
-						echo "Running init on Power"
+			def labels = ['power', 'intel']
+			def builders = [:]
+			for (x in labels) {
+				def label = x
+				builders[label] = {
+					agent label {
+						echo "Running init on" $label
 					}
 				}
-			} //end parallel
+			}
+			parallel builders
 		}
 		stage('Build') {
 			parallel {
