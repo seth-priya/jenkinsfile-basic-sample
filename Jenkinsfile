@@ -6,7 +6,7 @@ pipeline {
 			steps {
 				script {
 					echo "In init stage"
-					def labels = ["Intel", "Power"]
+					def labels = ["intel", "power"]
 					def builders = [:]
 					for (x in labels) {
 						echo "Printing labels ..."					
