@@ -5,9 +5,12 @@ pipeline {
 			agent none 
 			steps {
 				script {
+					echo "In init stage"
 					def labels = ["Intel", "Power"]
 					def builders = [:]
 					for (x in labels) {
+						echo "Printing labels ..."
+						echo $label
 						def label = x
 						builders[label] = {
 							node(label) {	
