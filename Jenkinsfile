@@ -11,9 +11,9 @@ pipeline {
 					for (x in labels) {
 						echo "Printing labels ..."					
 						def label = x
-						builders["init ${label}] = {
+						builders["init ${label}"] = {
 							node(label) {	
-								echo "Running Init ${label}
+								echo "Running Init ${label}"
 							}	
 						}
 					}
