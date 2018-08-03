@@ -17,7 +17,8 @@ pipeline {
 							}	
 						}
 					}
-				}
+					parallel builders
+				}			
 			}
 		}
 		stage('Build') {
