@@ -4,14 +4,15 @@ pipeline {
 		stage('Init') {
 			agent none 
 			steps {
-				def labels = ["Intel", "Power"]
-				def builders = [:]
-				for (x in labels) {
-					def label = x
-					builders[label] = {
-						node(label) {	
-							echo "Running Init $label"
-									
+				script {
+					def labels = ["Intel", "Power"]
+					def builders = [:]
+					for (x in labels) {
+						def label = x
+						builders[label] = {
+							node(label) {	
+								echo "Running Init $label"
+							}	
 						}
 					}
 				}
