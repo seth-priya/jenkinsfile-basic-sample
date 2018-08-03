@@ -9,8 +9,7 @@ pipeline {
 					def labels = ["Intel", "Power"]
 					def builders = [:]
 					for (x in labels) {
-						echo "Printing labels ..."
-						echo label
+						echo "Printing labels ..."					
 						def label = x
 						builders[label] = {
 							node(label) {	
