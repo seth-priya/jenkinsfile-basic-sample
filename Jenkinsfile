@@ -32,14 +32,14 @@ pipeline {
 	}
 	stages {
 		stage('Init') {
-			agent none 
 			steps {
 				script {
 					def archs = params.engineBuildAndTestArch.split(",")
 					for (x in archs) {				
 					    def arch = x
 					    builders["${arch} Init"] = {
-						node("welter${arch}") {
+						def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
+						node(nodeLabel) {
 							doInit(arch, 'OPT')
 						}
 					    }
