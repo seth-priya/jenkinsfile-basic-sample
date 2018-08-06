@@ -37,11 +37,12 @@ pipeline {
 				script {
 					def archs = params.engineBuildAndTestArch.split()
 					for (x in archs) {				
-						def arch = x
-						builders[arch] = {
+					    def arch = x
+					    builders[arch] = {
 						node(arch) {
 							doInit(arch, 'OPT')
 						}
+					    }
 					}	
 					parallel builders
 				}			
