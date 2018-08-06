@@ -9,19 +9,7 @@ def doInit(arch, buildMode) {
 	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
 }
 
-//def createBuilders(buildMode, funcName) {
-//	def archs = ["intel", "power"]
-//	def builders = [:]
-//	for (x in archs) {
-//		def arch = x
-//		builders[arch] = {
-//		    node(arch) {
-//			funcName(arch, buildMode)
-//		    }
-//		}
-//	}
-//	return builders
-//}
+def archs = params.engineBuildAndTestArch.split(",")
 
 pipeline {
 	agent none
@@ -34,8 +22,8 @@ pipeline {
 		stage('Init') {
 			steps {
 				script {
-					def archs = params.engineBuildAndTestArch.split(",")
-					for (x in archs) {				
+				       //def archs = params.engineBuildAndTestArch.split(",")
+				       for (x in archs) {				
 					    def arch = x
 					    builders["${arch} Init"] = {
 						def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
