@@ -3,17 +3,17 @@
 //}
 
 def createExecBuilder(stageName, funcName, buildMode) {
-    //    def archs = ["intel", "power"]
-     //   def builders = [:]
-      //  for (x in archs) {
-        //        def arch = x
-          //      builders["${arch} ${stageName}"] = {
-            //            node(${arch}) {		
+        def archs = ["intel", "power"]
+        def builders = [:]
+        for (x in archs) {
+                def arch = x
+                builders["${arch} ${stageName}"] = {
+                        node(${arch}) {		
 				echo "In init BuildMode=${buildMode}"
                                 //doInit(${buildMode, ${arch}, ${withCov})
-              //          }
-               // }
-        //}
+                        }
+                }
+        }
         //parallel builders
 }
 
