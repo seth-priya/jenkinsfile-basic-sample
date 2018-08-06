@@ -1,29 +1,48 @@
+def builders = [:]
+
+def getEngineBuildArchChoices() {
+    // To avoid racing conditions being obscured by ASAN tests, run OPT by default as well
+    return "intel\npower\nintel, power"
+}
+
 def doInit(arch, buildMode) {
 	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
 }
 
-def createBuilders(buildMode, funcName) {
-	def archs = ["intel", "power"]
-	def builders = [:]
-	for (x in archs) {
-		def arch = x
-		builders[arch] = {
-		    node(arch) {
-			funcName(arch, buildMode)
-		    }
-		}
-	}
-	return builders
+//def createBuilders(buildMode, funcName) {
+//	def archs = ["intel", "power"]
+//	def builders = [:]
+//	for (x in archs) {
+//		def arch = x
+//		builders[arch] = {
+//		    node(arch) {
+//			funcName(arch, buildMode)
+//		    }
+//		}
+//	}
+//	return builders
 }
 
 pipeline {
 	agent none
+	parameters {
+		choice(choices: getEngineBuildArchChoices(),
+                description: 'What architecture to run build/test on?',
+                name: 'engineBuildAndTestArch')
+	}
 	stages {
 		stage('Init') {
 			agent none 
 			steps {
 				script {
-					def builders = createBuilders("OPT", doInit)
+					def archs = params.engineBuildAndTestArch.split()
+					for (x in archs) {				
+						def arch = x
+						builders[arch] = {
+						node(arch) {
+							doInit(arch, 'OPT')
+						}
+					}	
 					parallel builders
 				}			
 			}
@@ -41,7 +60,7 @@ pipeline {
 				stage('Power Client JARS') {
 					agent {
 						label 'power'
-					}
+ 				}
 					steps {
 						echo "Running Client JARS on Power"
 					}
