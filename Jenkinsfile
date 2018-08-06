@@ -2,7 +2,7 @@ def doInit(arch, buildMode) {
 	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
 }
 
-def createBuilders(buildMode, funcName) {
+def createBuilders(buildMode, Closure funcName) {
 	def archs = ["intel", "power"]
 	def builders = [:]
 	for (x in archs) {
