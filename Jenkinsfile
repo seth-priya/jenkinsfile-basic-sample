@@ -19,7 +19,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					doInit("OPT")
+					def builders = doInit("OPT")
 			//		for (x in archs) {
 			//		    def arch = x
 			//		    builders[arch] = {
