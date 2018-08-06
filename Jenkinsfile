@@ -1,7 +1,7 @@
 def archs = ["intel", "power"]
+def builders = [:]
 
 def doInit(buildMode) {
-	def builders = [:]
 	for (x in archs) {
 		def arch = x
 		builders[arch] = {
