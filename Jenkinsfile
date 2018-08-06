@@ -1,9 +1,18 @@
-def doInit(buildMode, arch) {
-	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
-}
-
 def archs = ["intel", "power"]
 def builders = [:]
+
+def doInit(buildMode) {
+	for (x in archs) {
+		def arch = x
+		builders[arch] = {
+		    node(arch) {
+			echo "In init BuildMode=${buildMode}, Architecture=${arch}"
+		    }
+		}
+	}
+	parallel builders
+}
+
 pipeline {
 	agent none
 	stages {
@@ -11,15 +20,16 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					for (x in archs) {
-					    def arch = x
-					    builders[arch] = {
-						node(arch) {
-					    	    doInit("OPT", arch)
-						}
-					    }
-					}
-					parallel builders
+					doInit("OPT")
+			//		for (x in archs) {
+			//		    def arch = x
+			//		    builders[arch] = {
+			//			node(arch) {
+			//		    	    doInit("OPT", arch)
+			//			}
+			//		    }
+			//		}
+			//		parallel builders
 				}			
 			}
 		}
