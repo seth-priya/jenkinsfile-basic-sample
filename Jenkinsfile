@@ -13,7 +13,7 @@ pipeline {
 					for (int i = 0; i < archs.size(); ++i) {
 					    builders[${archs[i]] = {
 						node(${archs[i]) {
-					    		doInit("OPT", ${archs[i]}
+					    		doInit("OPT", ${archs[i]})
 						}
 					    }
 					}
