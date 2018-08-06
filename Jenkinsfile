@@ -1,9 +1,9 @@
 def archs = ["intel", "power"]
-def builders = [:]
 
 def doInit(buildMode) {
 	for (x in archs) {
 		def arch = x
+		def builders = [:]
 		builders[arch] = {
 		    node(arch) {
 			echo "In init BuildMode=${buildMode}, Architecture=${arch}"
