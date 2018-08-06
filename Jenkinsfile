@@ -23,8 +23,7 @@ pipeline {
 			steps {
 				script {
 				       //def archs = params.engineBuildAndTestArch.split(",")
-				       for (x in archs) {				
-					    def arch = x
+				       for (arch in archs) {				
 					    builders["${arch} Init"] = {
 						def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
 						node(nodeLabel) {
