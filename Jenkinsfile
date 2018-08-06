@@ -23,7 +23,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					createExecBuilder('init', 'doInit', 'OPT') 
+					createExecBuilder('Init', 'doInit', 'OPT') 
 				}			
 			}
 		}
