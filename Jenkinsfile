@@ -12,9 +12,10 @@ pipeline {
 			steps {
 				script {
 					for (int i=0; i < archs.size(); i++) {
-					    builders[${archs[i]}] = {
-						node(${archs[i]}) {
-					    	    doInit("OPT", ${archs[i]})
+					    def arch = ${archs[i]
+					    builders[arch] = {
+						node(arch) {
+					    	    doInit("OPT", arch)
 						}
 					    }
 					}
