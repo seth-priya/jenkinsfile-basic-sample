@@ -11,7 +11,12 @@ pipeline {
 				script {
 					def archs = ["intel", "power"]
 					for (int i = 0; i < archs.size(); ++i) {
-					    doInit("OPT", ${archs[i]}
+					    builders[${archs[i]] = {
+						node(${archs[i]) {
+					    		doInit("OPT", ${archs[i]}
+						}
+					    }
+					}
 				}			
 			}
 		}
