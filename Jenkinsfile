@@ -24,6 +24,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
+					echo "In init "
 					//createExecBuilder('Init', 'doInit', 'OPT') 
 				}			
 			}
