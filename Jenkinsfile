@@ -23,7 +23,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					def builders = createBuilders("OPT", "doInit")
+					def builders = createBuilders("OPT", doInit)
 					parallel builders
 				}			
 			}
