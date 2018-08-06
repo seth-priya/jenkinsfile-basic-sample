@@ -2,6 +2,8 @@ def doInit(buildMode, arch) {
 	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
 }
 
+def archs = ["intel", "power"]
+def builders = [:]
 pipeline {
 	agent none
 	stages {
@@ -9,8 +11,6 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					def archs = ["intel", "power"]
-					def builders = [:]
 					for (x in archs) {
 					    def arch = x
 					    builders[arch] = {
