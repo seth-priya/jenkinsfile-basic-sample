@@ -19,7 +19,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					def init_builders = doInit("OPT")
+					def builders = doInit("OPT")
 			//		for (x in archs) {
 			//		    def arch = x
 			//		    builders[arch] = {
@@ -28,7 +28,7 @@ pipeline {
 			//			}
 			//		    }
 			//		}
-					parallel init_builders
+					parallel builders
 				}			
 			}
 		}
