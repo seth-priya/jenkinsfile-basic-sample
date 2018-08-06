@@ -10,6 +10,7 @@ pipeline {
 			steps {
 				script {
 					def archs = ["intel", "power"]
+					def builders = [:]
 					for (x in archs) {
 					    def arch = x
 					    builders[arch] = {
