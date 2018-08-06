@@ -9,7 +9,9 @@ def doInit(arch, buildMode) {
 	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
 }
 
-def archs = params.engineBuildAndTestArch.split(",")
+def doBuild(arch, buildMode) {
+        echo "In Build BuildMode=${buildMode}, Architecture=${arch}"
+}
 
 pipeline {
 	agent none
@@ -22,8 +24,9 @@ pipeline {
 		stage('Init') {
 			steps {
 				script {
-				       //def archs = params.engineBuildAndTestArch.split(",")
-				       for (arch in archs) {				
+				       def archs = params.engineBuildAndTestArch.split(",")
+				       for (x in arch) {				
+					    def arch = x
 					    builders["${arch} Init"] = {
 						def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
 						node(nodeLabel) {
@@ -37,22 +40,24 @@ pipeline {
 		}
 		stage('Build') {
 			parallel {
-				stage('Intel Client JARS') {
-					agent {
-						label 'intel'
-					}
-					steps {
-						echo "Running Client JARS on Intel"
-					}
-				}
-				stage('Power Client JARS') {
-					agent {
-						label 'power'
- 				}
-					steps {
-						echo "Running Client JARS on Power"
-					}
-				}
+				stage('Client JARS') {
+	      	                    steps {
+                	                script {
+                        	            def archs = params.engineBuildAndTestArch.split(",")
+                                	        for (x in archs) {
+                                        	    def arch = x
+                                           	    builders["${arch} Client JARS"] = {
+                                      		        def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
+                                                	node(nodeLabel) {
+                                                            doBuild(arch, 'OPT')
+                                                	    }
+                                            	        }
+                                        	    }
+						}
+                                             parallel builders
+                                	}
+				    }
+                        	}
 				stage('Intel Build OPT') {
 					agent {
 						label 'intel'
