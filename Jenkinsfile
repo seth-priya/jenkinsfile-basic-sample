@@ -9,6 +9,7 @@ def doInit(buildMode) {
 		    }
 		}
 	}
+	return builders
 }
 
 pipeline {
