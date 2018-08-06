@@ -21,7 +21,7 @@ def doInit(arch, buildMode) {
 //		}
 //	}
 //	return builders
-}
+//}
 
 pipeline {
 	agent none
