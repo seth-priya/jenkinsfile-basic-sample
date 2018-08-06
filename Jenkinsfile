@@ -9,7 +9,7 @@ def createExecBuilder(stageName, funcName, buildMode) {
         //        def arch = x
           //      builders["${arch} ${stageName}"] = {
             //            node(${arch}) {		
-				echo "In init BuildMode=${buildMode}, Architecture=${arch}"
+				echo "In init BuildMode=${buildMode}"
                                 //doInit(${buildMode, ${arch}, ${withCov})
               //          }
                // }
