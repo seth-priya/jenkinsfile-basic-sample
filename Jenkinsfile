@@ -1,3 +1,21 @@
+def doInit(buildMode, arch) {
+	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
+}
+
+def createExecBuilder(stageName, funcName, buildMode, withCov=false) {
+        def archs = ["intel", "power"]
+        def builders = [:]
+        for (x in archs) {
+                def arch = x
+                builders["${arch} ${stageName}"] = {
+                        node(${arch}) {
+                                ${funcName}(${buildMode}, ${arch}, ${withCov})
+                        }
+                }
+        }
+        parallel builders
+}
+
 pipeline {
 	agent none
 	stages {
@@ -5,19 +23,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					echo "In init stage"
-					def labels = ["intel", "power"]
-					def builders = [:]
-					for (x in labels) {
-						echo "Printing labels ..."					
-						def label = x
-						builders["init ${label}"] = {
-							node(label) {	
-								echo "Running Init ${label}"
-							}	
-						}
-					}
-					parallel builders
+					createExecBuilder('init', 'doInit', 'OPT') 
 				}			
 			}
 		}
