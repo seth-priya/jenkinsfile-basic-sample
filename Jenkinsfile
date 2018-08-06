@@ -10,7 +10,6 @@ def doInit(buildMode) {
 		    }
 		}
 	}
-	parallel builders
 }
 
 pipeline {
@@ -29,7 +28,7 @@ pipeline {
 			//			}
 			//		    }
 			//		}
-			//		parallel builders
+					parallel builders
 				}			
 			}
 		}
