@@ -13,7 +13,7 @@ def createExecBuilder(stageName, funcName, buildMode) {
                         }
                 }
         }
-        //parallel builders
+        parallel builders
 }
 
 pipeline {
