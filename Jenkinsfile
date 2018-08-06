@@ -1,15 +1,16 @@
-def doInit(buildMode, arch) {
-	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
-}
+//def doInit(buildMode, arch) {
+//	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
+//}
 
-def createExecBuilder(stageName, funcName, buildMode, withCov=false) {
+def createExecBuilder(stageName, funcName, buildMode) {
         def archs = ["intel", "power"]
         def builders = [:]
         for (x in archs) {
                 def arch = x
                 builders["${arch} ${stageName}"] = {
-                        node(${arch}) {			
-                                doInit(${buildMode}, ${arch}, ${withCov})
+                        node(${arch}) {		
+				echo "In init BuildMode=${buildMode}, Architecture=${arch}"	
+                                //doInit(${buildMode}, ${arch}, ${withCov})
                         }
                 }
         }
