@@ -39,7 +39,7 @@ pipeline {
 					for (x in archs) {				
 					    def arch = x
 					    builders["${arch} Init"] = {
-						node(welter"${arch}") {
+						node("welter${arch}") {
 							doInit(arch, 'OPT')
 						}
 					    }
