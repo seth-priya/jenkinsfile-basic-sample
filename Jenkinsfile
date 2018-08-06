@@ -50,7 +50,6 @@ pipeline {
                                       		        def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
                                                 	node(nodeLabel) {
                                                             doBuild(arch, 'OPT')
-                                                	    }
                                             	        }
                                         	    }
 						}
