@@ -2,7 +2,7 @@ def builders = [:]
 
 def getEngineBuildArchChoices() {
     // To avoid racing conditions being obscured by ASAN tests, run OPT by default as well
-    return "intel\npower\nintel, power"
+    return "intel\npower\nintel,power"
 }
 
 def doInit(arch, buildMode) {
@@ -38,8 +38,8 @@ pipeline {
 					def archs = params.engineBuildAndTestArch.split(",")
 					for (x in archs) {				
 					    def arch = x
-					    builders[arch] = {
-						node(arch) {
+					    builders["${arch} Init"] = {
+						node("${welter}"arch) {
 							doInit(arch, 'OPT')
 						}
 					    }
