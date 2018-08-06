@@ -9,8 +9,8 @@ def createExecBuilder(stageName, funcName, buildMode) {
                 def arch = x
                 builders["${arch} ${stageName}"] = {
                         node(${arch}) {		
-				echo "In init BuildMode=${buildMode}, Architecture=${arch}"	
-                                //doInit(${buildMode}, ${arch}, ${withCov})
+				echo "In init BuildMode=${buildMode}, Architecture=${arch}"
+                                //doInit(${buildMode, ${arch}, ${withCov})
                         }
                 }
         }
@@ -24,8 +24,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					echo "In init "
-					//createExecBuilder('Init', 'doInit', 'OPT') 
+					createExecBuilder('Init', 'doInit', 'OPT') 
 				}			
 			}
 		}
