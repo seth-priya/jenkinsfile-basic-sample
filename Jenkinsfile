@@ -2,7 +2,7 @@ def doInit(arch, buildMode) {
 	echo "In init BuildMode=${buildMode}, Architecture=${arch}"
 }
 
-def createBuilders(buildMode, Closure funcName) {
+def createBuilders(buildMode, funcName) {
 	def archs = ["intel", "power"]
 	def builders = [:]
 	for (x in archs) {
@@ -23,7 +23,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					def builders = createBuilders("OPT", &doInit)
+					def builders = createBuilders("OPT", doInit)
 					parallel builders
 				}			
 			}
