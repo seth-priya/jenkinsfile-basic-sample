@@ -35,7 +35,7 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					def archs = params.engineBuildAndTestArch.split()
+					def archs = params.engineBuildAndTestArch.split(",")
 					for (x in archs) {				
 					    def arch = x
 					    builders[arch] = {
