@@ -8,8 +8,8 @@ def createExecBuilder(stageName, funcName, buildMode, withCov=false) {
         for (x in archs) {
                 def arch = x
                 builders["${arch} ${stageName}"] = {
-                        node(${arch}) {
-                                ${funcName}(${buildMode}, ${arch}, ${withCov})
+                        node(${arch}) {			
+                                doInit(${buildMode}, ${arch}, ${withCov})
                         }
                 }
         }
