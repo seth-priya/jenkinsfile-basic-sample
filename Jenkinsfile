@@ -10,7 +10,7 @@ pipeline {
 			steps {
 				script {
 					def archs = ["intel", "power"]
-					for (int i = 0; i < archs.size(); ++i) {a
+					for (int i = 0; i < archs.size(); ++i) {
 					    def arch = ${archs[i]}
 					    builders[arch] = {
 						node(arch) {
