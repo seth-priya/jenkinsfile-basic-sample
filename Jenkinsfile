@@ -10,7 +10,6 @@ def createBuilders(buildMode) {
 		builders[arch] = {
 		    node(arch) {
 			doInit(arch, buildMode)
-			//echo "In init BuildMode=${buildMode}, Architecture=${arch}"
 		    }
 		}
 	}
@@ -25,14 +24,6 @@ pipeline {
 			steps {
 				script {
 					def builders = createBuilders("OPT")
-			//		for (x in archs) {
-			//		    def arch = x
-			//		    builders[arch] = {
-			//			node(arch) {
-			//		    	    doInit("OPT", arch)
-			//			}
-			//		    }
-			//		}
 					parallel builders
 				}			
 			}
