@@ -14,7 +14,8 @@ pipeline {
 					    def arch = x
 					    builders[arch] = {
 						node(arch) {
-					    		doInit("OPT", arch)
+						     echo "In init $arch"
+					    	//	doInit("OPT", arch)
 						}
 					    }
 					}
