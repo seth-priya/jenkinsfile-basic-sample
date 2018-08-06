@@ -11,11 +11,10 @@ pipeline {
 			agent none 
 			steps {
 				script {
-					for (x in archs) {
-					    def arch = x
-					    builders[arch] = {
-						node(arch) {
-					    	    doInit("OPT", arch)
+					for (int i=0; i < archs.size(); i++) {
+					    builders[${archs[i]}] = {
+						node(${archs[i]}) {
+					    	    doInit("OPT", ${archs[i]})
 						}
 					    }
 					}
