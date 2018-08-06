@@ -10,13 +10,15 @@ pipeline {
 			steps {
 				script {
 					def archs = ["intel", "power"]
-					for (int i = 0; i < archs.size(); ++i) {
-					    builders[${archs[i]}] = {
-						node(${archs[i]}) {
-					    		doInit("OPT", ${archs[i]})
+					for (int i = 0; i < archs.size(); ++i) {a
+					    def arch = ${archs[i]}
+					    builders[arch] = {
+						node(arch) {
+					    		doInit("OPT", arch)
 						}
 					    }
 					}
+					parallel builders
 				}			
 			}
 		}
