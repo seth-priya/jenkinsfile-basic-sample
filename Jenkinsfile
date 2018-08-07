@@ -39,6 +39,10 @@ pipeline {
 			}
 		}
 		stage('Build') {
+			agent none
+			when {
+				expression { params.engineBuildAndTestArch.contains('x86_64') == true }
+			}
 			parallel {
 				stage('Client JARS') {
 	      	                    steps {
