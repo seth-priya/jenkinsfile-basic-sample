@@ -13,6 +13,8 @@ def doBuild(arch, buildMode) {
         echo "In Build BuildMode=${buildMode}, Architecture=${arch}"
 }
 
+def archs = params.engineBuildAndTestArch.split(",")
+
 pipeline {
 	agent none
 	parameters {
@@ -39,14 +41,10 @@ pipeline {
 			}
 		}
 		stage('Build') {
-			when {
-				expression { params.engineBuildAndTestArch.contains('x86_64') == true }
-			}
 			parallel {
 				stage('Client JARS') {
 	      	                    steps {
                 	                script {
-                        	            def archs = params.engineBuildAndTestArch.split(",")
                                 	        for (x in archs) {
                                         	    def arch = x
                                            	    builders["${arch} Client JARS"] = {
@@ -60,22 +58,20 @@ pipeline {
                                 	}
 				    }
                         	}
-				stage('Intel Build OPT') {
-					agent {
-						label 'intel'
-					}
+				stage('Build OPT') {
 					steps {
-						echo "Running Build OPT on Intel"
-					}
-				}
-				stage('Power Build OPT') {
-					agent {
-						label 'power'
-					}
-					steps {
-						echo "Running Build OPT on Power"
-						echo "Sleeping for 60 seconds ..."
-						sleep 60						
+                                            script {
+                                                for (x in archs) {
+                                                    def arch = x
+                                                    builders["${arch} Build OPT"] = {
+                                                        def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
+                                                        node(nodeLabel) {
+                                                            doBuild(arch, 'OPT')
+                                                        }
+                                                    }
+                                                }
+                                             parallel builders
+                                             }
 					}
 				}
 				stage('Intel Build ASAN') {
