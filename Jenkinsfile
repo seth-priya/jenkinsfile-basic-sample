@@ -23,19 +23,6 @@ pipeline {
 	stages {
 		stage('Init') {
 			steps {
-				script {
-				       archs = params.engineBuildAndTestArch.split(",")
-				       for (x in archs) {				
-					    def arch = x
-					    builders["${arch} Init"] = {
-						def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
-						node(nodeLabel) {
-							doInit(arch, 'OPT')
-						}
-					    }
-					}	
-					parallel builders
-				}			
 			}
 		}
 		stage('Build') {
