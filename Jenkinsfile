@@ -26,7 +26,6 @@ pipeline {
 		stage('Init') {
 			steps {
 				script {
-				       def archs = params.engineBuildAndTestArch.split(",")
 				       for (x in archs) {				
 					    def arch = x
 					    builders["${arch} Init"] = {
