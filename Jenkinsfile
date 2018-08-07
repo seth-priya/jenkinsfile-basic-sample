@@ -13,8 +13,6 @@ def doBuild(arch, buildMode) {
         echo "In Build BuildMode=${buildMode}, Architecture=${arch}"
 }
 
-def archs = params.engineBuildAndTestArch.split(",")
-
 pipeline {
 	agent none
 	parameters {
@@ -26,6 +24,7 @@ pipeline {
 		stage('Init') {
 			steps {
 				script {
+				       def archs = params.engineBuildAndTestArch.split(",")
 				       for (x in archs) {				
 					    def arch = x
 					    builders["${arch} Init"] = {
