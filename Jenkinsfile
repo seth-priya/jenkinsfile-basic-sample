@@ -13,6 +13,8 @@ def doBuild(arch, buildMode) {
         echo "In Build BuildMode=${buildMode}, Architecture=${arch}"
 }
 
+def archs = params.engineBuildAndTestArch.split(",")
+
 pipeline {
 	agent none
 	parameters {
@@ -23,6 +25,7 @@ pipeline {
 	stages {
 		stage('Init') {
 			steps {
+				echo "Init"
 			}
 		}
 		stage('Build') {
@@ -30,7 +33,6 @@ pipeline {
 				stage('Client JARS') {
 	      	                    steps {
                 	                script {
-					        archs = params.engineBuildAndTestArch.split(",")
                                 	        for (x in archs) {
                                         	    def arch = x
                                            	    builders["${arch} Client JARS"] = {
@@ -47,7 +49,6 @@ pipeline {
 				stage('Build OPT') {
 					steps {
                                             script {
-						archs = params.engineBuildAndTestArch.split(",")
                                                 for (x in archs) {
                                                     def arch = x
                                                     builders["${arch} Build OPT"] = {
