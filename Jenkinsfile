@@ -1,5 +1,3 @@
-def builders = [:]
-
 def getEngineBuildArchChoices() {
     // To avoid racing conditions being obscured by ASAN tests, run OPT by default as well
     return "intel\npower\nintel,power"
@@ -33,6 +31,7 @@ pipeline {
 				stage('Client JARS') {
 	      	                    steps {
                 	                script {
+					        def builders = [:]
                                 	        for (x in archs) {
                                         	    def arch = x
                                            	    builders["${arch} Client JARS"] = {
@@ -49,6 +48,7 @@ pipeline {
 				stage('Build OPT') {
 					steps {
                                             script {
+					        def builders = [:]
                                                 for (x in archs) {
                                                     def arch = x
                                                     builders["${arch} Build OPT"] = {
