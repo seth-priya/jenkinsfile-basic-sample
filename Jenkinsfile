@@ -41,7 +41,7 @@ pipeline {
 				    def bStage = buildStage
                               	    for (x in archs) {
                                         def arch = x
-					if (bStageData[bStage][1] == "1") { continue }
+					if (bStageData[bStage][1] == "1" && arch == "power") { continue }
                                         builders["${arch} ${bStage}"] = {
 					    def agentLabelPrefix = bStageData[bStage][0]
 					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
