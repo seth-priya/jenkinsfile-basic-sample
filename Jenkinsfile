@@ -30,16 +30,26 @@ pipeline {
 		stage('Build') {
 	      	        steps {
                 	    script {
-				def subStages = ["Client JARS", "Build OPT"]
+                        	def bStageData = [
+                                    "Client JARs": "light",
+                                    "Build OPT": "welter",
+                                    "Build ASAN": "welter",
+                        	]
 				def builders = [:]
-				for (s in subStages) {
-				    sstage = s
+				for (buildStage in mapToList(bStageData)) {
+				    bStage = buildStage[0]
                               	    for (x in archs) {
                                         def arch = x
-                                        builders["${arch} ${sstage}"] = {
-                                      	    def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
-                                            node(nodeLabel) {
-                                                doBuild(arch, 'OPT')
+                                        builders["${arch} ${bStage}"] = {
+					    def agentLabel = (arch == "x86_64") ? "${buildStage[1]}weight" : "${buildStage[1]}${arch}"
+                                            node(agentLabel) {
+						if (bStage == "Build OPT") {
+                                                    doBuild(arch, 'OPT')
+						} else if bStage == "Client JARs") {
+						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
+						} else if bStage == "Build ASAN") {
+						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
+						}
                                             }
                                         }
 				    }
