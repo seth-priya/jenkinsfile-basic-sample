@@ -39,7 +39,6 @@ pipeline {
                                         builders["${arch} ${subStages}"] = {
                                       	    def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
                                             node(nodeLabel) {
-						checkout scm
                                                 doBuild(arch, 'OPT')
                                             }
                                         }
