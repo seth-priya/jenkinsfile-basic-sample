@@ -36,7 +36,7 @@ pipeline {
 				    sstage = subStages
                               	    for (x in archs) {
                                         def arch = x
-                                        builders["${arch} ${subStages}"] = {
+                                        builders["${arch} ${sstage}"] = {
                                       	    def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
                                             node(nodeLabel) {
                                                 doBuild(arch, 'OPT')
