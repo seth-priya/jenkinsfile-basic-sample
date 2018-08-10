@@ -1,3 +1,17 @@
+import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
+
+def call(boolean condition, body) {
+    def config = [:]
+    body.resolveStrategy = Closure.OWNER_FIRST
+    body.delegate = config
+
+    if (condition) {
+        body()
+    } else {
+        Utils.markStageSkippedForConditional(STAGE_NAME)
+    }
+}
+
 def getEngineBuildArchChoices() {
     // To avoid racing conditions being obscured by ASAN tests, run OPT by default as well
     return "intel\npower\nintel,power"
@@ -44,7 +58,7 @@ pipeline {
                                         builders["${arch} ${bStage}"] = {
 					    def agentLabelPrefix = bStageData[bStage][0]
 					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
-					    when (bStageData[bStage][1] == "0") { 
+					    when (bStageData[bStage][1] == "0") { }
                                             node(agentLabel) {
 						if (bStage == "Build OPT") {
                                                     doBuild(arch, 'OPT')
@@ -54,7 +68,6 @@ pipeline {
 						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
 						}
                                             }
-					    }
                                         }
 				    }
 				}
