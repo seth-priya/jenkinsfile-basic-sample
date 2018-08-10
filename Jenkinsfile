@@ -11,7 +11,7 @@ def doBuild(arch, buildMode) {
         echo "In Build BuildMode=${buildMode}, Architecture=${arch}"
 }
 
-def archs = params.engineBuildAndTestArch.split(",")
+def archs = []
 
 pipeline {
 	agent none
@@ -24,58 +24,31 @@ pipeline {
 		stage('Init') {
 			steps {
 				echo "Init"
+				archs = params.engineBuildAndTestArch.split(",")
 			}
 		}
 		stage('Build') {
-			parallel {
-				stage('Client JARS') {
-	      	                    steps {
-                	                script {
-					        def builders = [:]
-                                	        for (x in archs) {
-                                        	    def arch = x
-                                           	    builders["${arch} Client JARS"] = {
-                                      		        def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
-                                                	node(nodeLabel) {
-                                                            doBuild(arch, 'OPT')
-                                            	        }
-                                        	    }
-						}
-                                             parallel builders
-                                	}
+	      	        steps {
+                	    script {
+				def subStages = ["Client JARS", "Build OPT"]
+				def builders = [:]
+				for (s in subStages) {
+				    sstage = subStages
+                              	    for (x in archs) {
+                                        def arch = x
+                                        builders["${arch} ${subStages}"] = {
+                                      	    def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
+                                            node(nodeLabel) {
+						checkout scm
+                                                doBuild(arch, 'OPT')
+                                            }
+                                        }
 				    }
-                        	}
-				stage('Build OPT') {
-					steps {
-                                            script {
-					        def builders = [:]
-                                                for (x in archs) {
-                                                    def arch = x
-                                                    builders["${arch} Build OPT"] = {
-                                                        def nodeLabel = (arch == "intel") ? "welterweight" : "welter${arch}"
-                                                        node(nodeLabel) {
-                                                            doBuild(arch, 'OPT')
-                                                        }
-                                                    }
-                                                }
-                                             parallel builders
-                                             }
-					}
 				}
-				stage('Intel Build ASAN') {
-					agent {
-						label 'intel'
-					}
-					steps {
-						echo "Running ASAN on Intel"
-					}
-				}
-				stage('Power Build ASAN') {
-					steps {
-						echo "Skipping ASAN on Power ...."
-					}
-				}
-			} //end parallel
+                                parallel builders
+                            }
+			}
+                  }
 		} //end Build Stage
 		stage('DevQA') {
 			parallel {
