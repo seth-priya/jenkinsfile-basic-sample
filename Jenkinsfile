@@ -44,7 +44,7 @@ pipeline {
                                         builders["${arch} ${bStage}"] = {
 					    def agentLabelPrefix = bStageData[bStage][0]
 					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
-					    if (bStageData[bStage][1] == "1" && arch == "power") { continue }
+					    when (bStageData[bStage][1] == "0") { 
                                             node(agentLabel) {
 						if (bStage == "Build OPT") {
                                                     doBuild(arch, 'OPT')
@@ -54,6 +54,7 @@ pipeline {
 						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
 						}
                                             }
+					    }
                                         }
 				    }
 				}
