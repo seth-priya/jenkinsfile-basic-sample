@@ -31,9 +31,9 @@ pipeline {
 	      	        steps {
                 	    script {
                         	def bStageData = [
-                                    "Client JARs": "light",
-                                    "Build OPT": "welter",
-                                    "Build ASAN": "welter",
+                                    "Client JARs": ["light", "1"],
+                                    "Build OPT": ["welter", "0"],
+                                    "Build ASAN": ["welter", "1"],
                         	]
 				def builders = [:]
 				def buildStages = bStageData.keySet()
@@ -41,13 +41,11 @@ pipeline {
 				    def bStage = buildStage
                               	    for (x in archs) {
                                         def arch = x
-					echo "BEFORE BUILDERS: stage = ${bStage}, arch = ${arch}"
+					if (bStageData[bStage][1] == "1") { continue }
                                         builders["${arch} ${bStage}"] = {
-					    def agentLabelPrefix = bStageData[bStage]
+					    def agentLabelPrefix = bStageData[bStage][0]
 					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
-					    echo "BEFORE NODE: stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
                                             node(agentLabel) {
-						echo "INSIDE NODE: stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
 						if (bStage == "Build OPT") {
                                                     doBuild(arch, 'OPT')
 						} else if (bStage == "Client JARs") {
