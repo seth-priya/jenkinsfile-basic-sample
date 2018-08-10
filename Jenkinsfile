@@ -33,7 +33,7 @@ pipeline {
 				def subStages = ["Client JARS", "Build OPT"]
 				def builders = [:]
 				for (s in subStages) {
-				    sstage = subStages
+				    sstage = s
                               	    for (x in archs) {
                                         def arch = x
                                         builders["${arch} ${sstage}"] = {
