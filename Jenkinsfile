@@ -38,18 +38,21 @@ pipeline {
 				def builders = [:]
 				def buildStages = bStageData.keySet()
 				for (buildStage in buildStages) {
-				    bStage = buildStage
+				    def bStage = buildStage
                               	    for (x in archs) {
                                         def arch = x
+					echo "BEFORE BUILDERS: stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
                                         builders["${arch} ${bStage}"] = {
 					    def agentLabelPrefix = bStageData[bStage]
 					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
+					    echo "BEFORE NODE: stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
                                             node(agentLabel) {
-						if (${bStage} == "Build OPT") {
+						echo "INSIDE NODE: stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
+						if (bStage == "Build OPT") {
                                                     doBuild(arch, 'OPT')
-						} else if (${bStage} == "Client JARs") {
+						} else if (bStage == "Client JARs") {
 						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
-						} else if (${bStage} == "Build ASAN") {
+						} else if (bStage == "Build ASAN") {
 						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
 						}
                                             }
