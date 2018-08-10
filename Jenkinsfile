@@ -47,7 +47,6 @@ pipeline {
                                 parallel builders
                             }
 			}
-                  }
 		} //end Build Stage
 		stage('DevQA') {
 			parallel {
