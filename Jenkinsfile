@@ -45,11 +45,11 @@ pipeline {
 					    def agentLabelPrefix = bStageData[bStage]
 					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
                                             node(agentLabel) {
-						if (bStage == "Build OPT") {
+						if (${bStage} == "Build OPT") {
                                                     doBuild(arch, 'OPT')
-						} else if (bStage == "Client JARs") {
+						} else if (${bStage} == "Client JARs") {
 						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
-						} else if (bStage == "Build ASAN") {
+						} else if (${bStage} == "Build ASAN") {
 						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
 						}
                                             }
