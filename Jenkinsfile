@@ -36,12 +36,13 @@ pipeline {
                                     "Build ASAN": "welter",
                         	]
 				def builders = [:]
-				for (buildStage in mapToList(bStageData)) {
-				    bStage = buildStage[0]
+				def buildStages = bStageData.keySet()
+				for (buildStage in buildStages) {
+				    bStage = buildStage
                               	    for (x in archs) {
                                         def arch = x
                                         builders["${arch} ${bStage}"] = {
-					    def agentLabel = (arch == "x86_64") ? "${buildStage[1]}weight" : "${buildStage[1]}${arch}"
+					    def agentLabel = (arch == "x86_64") ? "${bStageData[${bStage}]}weight" : "${bStageData[${bStage}]}${arch}"
                                             node(agentLabel) {
 						if (bStage == "Build OPT") {
                                                     doBuild(arch, 'OPT')
