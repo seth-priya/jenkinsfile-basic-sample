@@ -24,7 +24,7 @@ pipeline {
 		stage('Init') {
 			steps {
 				echo "Init"
-				archs = params.engineBuildAndTestArch.split(",")
+				script { archs = params.engineBuildAndTestArch.split(",") }
 			}
 		}
 		stage('Build') {
