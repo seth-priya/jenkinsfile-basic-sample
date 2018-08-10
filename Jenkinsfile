@@ -41,7 +41,7 @@ pipeline {
 				    def bStage = buildStage
                               	    for (x in archs) {
                                         def arch = x
-					echo "BEFORE BUILDERS: stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
+					echo "BEFORE BUILDERS: stage = ${bStage}, arch = ${arch}"
                                         builders["${arch} ${bStage}"] = {
 					    def agentLabelPrefix = bStageData[bStage]
 					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
