@@ -1,25 +1,29 @@
+initfunc() {
+parallel {
+                                stage('Intel Init') {
+                                        agent {
+                                                label 'intel'
+                                        }
+                                        steps {
+                                                echo "Running init on Intel"
+                                        }
+                                }
+                                stage('Power Init') {
+                                        agent {
+                                                label 'power'
+                                        }
+                                        steps {
+                                                echo "Running init on Power"
+                                        }
+                                }
+}
+}
+
 pipeline {
 	agent none
 	stages {
 		stage('Init') {
-			parallel {
-				stage('Intel Init') {
-					agent {
-						label 'intel'
-					}
-					steps {
-						echo "Running init on Intel"
-					}
-				}
-				stage('Power Init') {
-					agent {
-						label 'power'
-					}
-					steps {
-						echo "Running init on Power"
-					}
-				}
-			} //end parallel
+			initfunc()
 		}
 		stage('Build') {
 			parallel {
