@@ -1,5 +1,4 @@
 initfunc() {
-parallel {
                                 stage('Intel Init') {
                                         agent {
                                                 label 'intel'
@@ -17,13 +16,14 @@ parallel {
                                         }
                                 }
 }
-}
 
 pipeline {
 	agent none
 	stages {
 		stage('Init') {
+		parallel {
 			initfunc()
+		}
 		}
 		stage('Build') {
 			parallel {
