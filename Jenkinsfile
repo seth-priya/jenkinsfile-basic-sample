@@ -64,7 +64,9 @@ pipeline {
 						} else if (bStage == "Client JARs") {
 						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
 						} else if (bStage == "Build ASAN") {
-						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
+							if (arch == "power") {
+									Utils.markStageSkippedForConditional("power Build ASAN")
+							} else { echo "executing ..." }
 						}
                                             }
                                         }
