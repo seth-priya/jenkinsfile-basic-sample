@@ -67,7 +67,7 @@ pipeline {
 						echo "Running ASAN on Intel"
 					}
 				}
-				stage() {
+				stage('Build Power') {
 					steps {
                 		    script {
                         		def bStageData = [
