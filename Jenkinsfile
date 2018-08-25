@@ -66,7 +66,7 @@ pipeline {
 						} else if (bStage == "Build ASAN") {
 							if (arch == "power") {
 									Utils.markStageSkippedForConditional("power Build ASAN")
-							} else { echo "executing ..." }
+							} else { exit 1 }
 						}
                                             }
                                         }
