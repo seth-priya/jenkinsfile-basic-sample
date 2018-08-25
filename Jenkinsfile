@@ -68,7 +68,8 @@ pipeline {
 					}
 				}
 				stage('Build Power') {
-					steps {
+				agent none
+				steps {
                 		    script {
                         		def bStageData = [
                                     		"Build OPT": ["welter", "0"],
@@ -76,25 +77,24 @@ pipeline {
 					def builders = [:]
 					def buildStages = bStageData.keySet()
 					for (buildStage in buildStages) {
-				    	def bStage = buildStage
-                              	    	for (x in archs) {
-                                        	def arch = x
-						if (arch == "x86_64") { continue }
-                                        	builders["${bStage} ${arch}"] = {
+				    		def bStage = buildStage                              	    
+                                        	builders["${bStage} Power"] = {
 					    		def agentLabelPrefix = bStageData[bStage][0]
-					    		def agentLabel = "${agentLabelPrefix}${arch}"
-                                            		node(agentLabel) { checkout scm
+					    		def agentLabel = "${agentLabelPrefix}Power"
+                                            		node(agentLabel) { 
 								if (bStage == "Build OPT") {
                                                     			doBuild(arch, 'OPT')
 								}
-							}
-                                            	}
-					}
-                                        }
-				    }
+							} // end node
+                                            	} // end builders
+					} // end for build stages
+                                 
+				   
                                     parallel builders
-					} }
-			}
+				    } // end script
+				} //end steps
+				} // end stage Power									
+			} // end parallel
 		} //end Build Stage
 		stage('DevQA') {
 			parallel {
