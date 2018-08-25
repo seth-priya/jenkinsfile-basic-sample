@@ -80,10 +80,10 @@ pipeline {
 				    		def bStage = buildStage                              	    
                                         	builders["${bStage} Power"] = {
 					    		def agentLabelPrefix = bStageData[bStage][0]
-					    		def agentLabel = "${agentLabelPrefix}Power"
+					    		def agentLabel = "${agentLabelPrefix}power"
                                             		node(agentLabel) { 
 								if (bStage == "Build OPT") {
-                                                    			doBuild(arch, 'OPT')
+                                                    			doBuild('ppc64le', 'OPT')
 								}
 							} // end node
                                             	} // end builders
