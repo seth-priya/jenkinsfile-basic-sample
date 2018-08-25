@@ -57,9 +57,7 @@ pipeline {
                                         def arch = x
                                         builders["${arch} ${bStage}"] = {
 					    def agentLabelPrefix = bStageData[bStage][0]
-					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
-					    when (bStageData[bStage][1] == "0") { }
-                                            node(agentLabel) {
+					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"				                                            node(agentLabel) {
 						if (bStage == "Build OPT") {
                                                     doBuild(arch, 'OPT')
 						} else if (bStage == "Client JARs") {
