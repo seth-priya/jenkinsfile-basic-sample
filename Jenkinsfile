@@ -44,11 +44,11 @@ pipeline {
 		stage('Build') {
 			parallel {
 				stage('Client JARS') {
-					agent {
+				agent {
 						label 'intel'
 					}
 					steps {
-						echo "Running Client JARS on Intel"
+							echo "Running Client JARS on Intel"
 					}
 				}			
 				stage('Build OPT') {
@@ -67,23 +67,28 @@ pipeline {
 						echo "Running ASAN on Intel"
 					}
 				}
-				stage('Build Power') {
+				stage('Power Build') {
 				agent none
 				steps {
                 		    script {
                         		def bStageData = [
-                                    		"Build OPT": ["welter", "0"],
+                                    		"Build OPT": ["welter", "0"],                                                 
+						"Build ASAN": ["welter", "0"]									
                         		]
 					def builders = [:]
 					def buildStages = bStageData.keySet()
 					for (buildStage in buildStages) {
 				    		def bStage = buildStage                              	    
-                                        	builders["${bStage} Power"] = {
+                                        	builders["Power ${bStage}"] = {
 					    		def agentLabelPrefix = bStageData[bStage][0]
 					    		def agentLabel = "${agentLabelPrefix}power"
                                             		node(agentLabel) { 
 								if (bStage == "Build OPT") {
                                                     			doBuild('ppc64le', 'OPT')
+								} else {
+									if (bStage == "Build ASAN") {
+										echo "Power Build ASAN"
+									}
 								}
 							} // end node
                                             	} // end builders
