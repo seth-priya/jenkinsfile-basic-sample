@@ -50,7 +50,7 @@ pipeline {
 					steps {
 						echo "Running Client JARS on Intel"
 					}
-				}
+				}			
 				stage('Build OPT') {
 					agent {
 						label 'intel'
@@ -67,7 +67,8 @@ pipeline {
 						echo "Running ASAN on Intel"
 					}
 				}
-	      	        	steps {
+				stage() {
+					steps {
                 		    script {
                         		def bStageData = [
                                     		"Build OPT": ["welter", "0"],
@@ -92,7 +93,7 @@ pipeline {
                                         }
 				    }
                                     parallel builders
-                            	}
+					} }
 			}
 		} //end Build Stage
 		stage('DevQA') {
