@@ -73,7 +73,7 @@ pipeline {
                 		    script {
                         		def bStageData = [
                                     		"Build OPT": ["welter", "0"],                                                 
-						"Build ASAN": ["pwelter", "0"]									
+						"Build ASAN": ["welter", "0"]									
                         		]
 					def builders = [:]
 					def buildStages = bStageData.keySet()
@@ -88,7 +88,8 @@ pipeline {
 								} else {
 									if (bStage == "Build ASAN") {
 										echo "Power Build ASAN"
-									}
+										
+exit 1										}
 								}
 							} // end node
                                             	} // end builders
