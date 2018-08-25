@@ -42,37 +42,56 @@ pipeline {
 			}
 		}
 		stage('Build') {
-	      	        steps {
-                	    script {
-                        	def bStageData = [
-                                    "Client JARs": ["light", "1"],
-                                    "Build OPT": ["welter", "0"],
-                                    "Build ASAN": ["welter", "1"],
-                        	]
-				def builders = [:]
-				def buildStages = bStageData.keySet()
-				for (buildStage in buildStages) {
-				    def bStage = buildStage
-                              	    for (x in archs) {
-                                        def arch = x
-                                        builders["${arch} ${bStage}"] = {
-					    def agentLabelPrefix = bStageData[bStage][0]
-					    def agentLabel = (arch == "intel") ? "${agentLabelPrefix}weight" : "${agentLabelPrefix}${arch}"
-					    when (bStageData[bStage][1] == "0") { }
-                                            node(agentLabel) {
-						if (bStage == "Build OPT") {
-                                                    doBuild(arch, 'OPT')
-						} else if (bStage == "Client JARs") {
-						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
-						} else if (bStage == "Build ASAN") {
-						    echo "stage = ${bStage}, arch = ${arch}, agentLabel = ${agentLabel}"
-						}
-                                            }
+			parallel {
+				stage('Client JARS') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running Client JARS on Intel"
+					}
+				}
+				stage('Build OPT') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running Build OPT on Intel"
+					}
+				}
+				stage('Build ASAN') {
+					agent {
+						label 'intel'
+					}
+					steps {
+						echo "Running ASAN on Intel"
+					}
+				}
+	      	        	steps {
+                		    script {
+                        		def bStageData = [
+                                    		"Build OPT": ["welter", "0"],
+                        		]
+					def builders = [:]
+					def buildStages = bStageData.keySet()
+					for (buildStage in buildStages) {
+				    	def bStage = buildStage
+                              	    	for (x in archs) {
+                                        	def arch = x
+						if (arch == "x86_64") { continue }
+                                        	builders["${bStage} ${arch}"] = {
+					    		def agentLabelPrefix = bStageData[bStage][0]
+					    		def agentLabel = "${agentLabelPrefix}${arch}"
+                                            		node(agentLabel) { checkout scm
+								if (bStage == "Build OPT") {
+                                                    			doBuild(arch, 'OPT')
+								}
+							}
+                                            	}
                                         }
 				    }
-				}
-                                parallel builders
-                            }
+                                    parallel builders
+                            	}
 			}
 		} //end Build Stage
 		stage('DevQA') {
